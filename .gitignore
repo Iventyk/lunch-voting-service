@@ -120,3 +120,7 @@ poetry.toml
 pyrightconfig.json
 **/migrations/*.py
 !**/migrations/__init__.py
+!users/migrations/0001_initial.py
+!restaurants/migrations/0001_initial.py
+!menus/migrations/0001_initial.py
+!votes/migrations/0001_initial.py
