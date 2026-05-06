@@ -50,6 +50,16 @@ python manage.py runserver
 
 Without `DATABASE_URL`, local runs use SQLite for convenience. Docker Compose uses PostgreSQL via `.env.example`.
 
+## API Documentation
+
+Interactive API documentation is available when the service is running:
+
+- Swagger UI: `http://localhost:8000/api/docs/`
+- OpenAPI schema: `http://localhost:8000/api/schema/`
+- ReDoc: `http://localhost:8000/api/redoc/`
+
+Click **Authorize** in Swagger UI and provide `Bearer <access-token>` after obtaining a JWT token.
+
 ## Authentication
 
 Obtain a JWT token:

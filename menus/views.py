@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import decorators, permissions, response, viewsets
 
 from menus.models import Menu
@@ -14,6 +15,10 @@ class MenuViewSet(viewsets.ModelViewSet):
             return [permissions.IsAdminUser()]
         return [permissions.IsAuthenticated()]
 
+    @extend_schema(
+        description="Return menus available for the current day.",
+        responses=MenuSerializer(many=True),
+    )
     @decorators.action(detail=False, methods=["get"], url_path="today")
     def today(self, request):
         serializer = self.get_serializer(menus_for_date(), many=True)
