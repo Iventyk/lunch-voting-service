@@ -1,7 +1,6 @@
+import os
 from datetime import timedelta
 from pathlib import Path
-
-import os
 from urllib.parse import urlparse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
     "common",
     "users",
     "restaurants",
@@ -116,6 +116,22 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Lunch Voting Service API",
+    "DESCRIPTION": (
+        "API for restaurants, daily menus, employee authentication, "
+        "and lunch voting."
+    ),
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SERVE_AUTHENTICATION": [],
+    "SERVE_PERMISSIONS": ["rest_framework.permissions.AllowAny"],
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,
+    },
 }
 
 SIMPLE_JWT = {

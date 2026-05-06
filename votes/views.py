@@ -1,3 +1,4 @@
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import (
     decorators,
     mixins,
@@ -16,6 +17,18 @@ from votes.serializers import (
 )
 
 
+API_VERSION_HEADER = OpenApiParameter(
+    name="X-API-Version",
+    type=int,
+    location=OpenApiParameter.HEADER,
+    required=False,
+    description=(
+        "Mobile API version. Version 1 allows one vote per day; "
+        "version 2 allows changing a vote. Defaults to 2."
+    ),
+)
+
+
 class VoteViewSet(
     mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
 ):
@@ -31,6 +44,11 @@ class VoteViewSet(
             return VoteCreateSerializer
         return VoteSerializer
 
+    @extend_schema(
+        parameters=[API_VERSION_HEADER],
+        request=VoteCreateSerializer,
+        responses={200: VoteSerializer, 201: VoteSerializer},
+    )
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -45,6 +63,10 @@ class VoteViewSet(
         )
         return response.Response(response_serializer.data, status=status_code)
 
+    @extend_schema(
+        description="Return current-day voting results grouped by menu.",
+        responses=ResultSerializer(many=True),
+    )
     @decorators.action(detail=False, methods=["get"], url_path="results")
     def results(self, request):
         serializer = ResultSerializer(current_day_results(), many=True)
