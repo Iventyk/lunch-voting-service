@@ -4,8 +4,15 @@ python_files = ["tests.py", "test_*.py", "*_tests.py"]
 addopts = "-ra"
 
 [tool.black]
-line-length = 88
+line-length = 79
 target-version = ["py313"]
+exclude = '''
+/(
+    migrations
+  | venv
+  | .venv
+)/
+'''
 
 [tool.isort]
 profile = "black"

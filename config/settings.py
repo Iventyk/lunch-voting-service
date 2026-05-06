@@ -13,7 +13,11 @@ def env_bool(name: str, default: bool = False) -> bool:
 
 def env_list(name: str, default: list[str]) -> list[str]:
     raw_value = os.getenv(name)
-    return [item.strip() for item in raw_value.split(",") if item.strip()] if raw_value else default
+    return (
+        [item.strip() for item in raw_value.split(",") if item.strip()]
+        if raw_value
+        else default
+    )
 
 
 def database_from_url(url: str) -> dict[str, str | int]:
@@ -79,14 +83,23 @@ if DATABASE_URL:
     DATABASES = {"default": database_from_url(DATABASE_URL)}
 else:
     DATABASES = {
-        "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"  # noqa
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"  # noqa
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"  # noqa
+    },
 ]
 
 LANGUAGE_CODE = "en-us"
@@ -100,7 +113,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
 }
 
 SIMPLE_JWT = {

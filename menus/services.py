@@ -7,7 +7,9 @@ from restaurants.models import Restaurant
 
 
 @transaction.atomic
-def upsert_menu(*, restaurant: Restaurant, menu_date: date, items: list[dict]) -> Menu:
+def upsert_menu(
+    *, restaurant: Restaurant, menu_date: date, items: list[dict]
+) -> Menu:
     """Create or replace a restaurant menu for the given day."""
     menu, _created = Menu.objects.update_or_create(
         restaurant=restaurant,

@@ -13,14 +13,23 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ["id", "username", "password", "email", "full_name", "created_at"]
+        fields = [
+            "id",
+            "username",
+            "password",
+            "email",
+            "full_name",
+            "created_at",
+        ]
         read_only_fields = ["id", "created_at"]
 
     def create(self, validated_data):
         username = validated_data.pop("username")
         password = validated_data.pop("password")
         email = validated_data.pop("email", "")
-        user = User.objects.create_user(username=username, email=email, password=password)
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
         return Employee.objects.create(user=user, **validated_data)
 
 

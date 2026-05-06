@@ -13,10 +13,14 @@ def create_user(
     *,
     is_staff: bool = False,
 ):
-    return User.objects.create_user(username=username, password=password, is_staff=is_staff)
+    return User.objects.create_user(
+        username=username, password=password, is_staff=is_staff
+    )
 
 
-def create_menu(name: str = "Cafe", *, items: list[dict] | None = None, date=None) -> Menu:
+def create_menu(
+    name: str = "Cafe", *, items: list[dict] | None = None, date=None
+) -> Menu:
     restaurant = Restaurant.objects.create(name=name)
     return Menu.objects.create(
         restaurant=restaurant,

@@ -27,7 +27,9 @@ def test_admin_can_upload_daily_menu():
     )
 
     assert response.status_code == status.HTTP_201_CREATED
-    assert Menu.objects.filter(restaurant=restaurant, date=timezone.localdate()).exists()
+    assert Menu.objects.filter(
+        restaurant=restaurant, date=timezone.localdate()
+    ).exists()
 
 
 def test_authenticated_user_can_get_today_menus():

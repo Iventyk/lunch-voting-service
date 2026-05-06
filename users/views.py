@@ -4,7 +4,9 @@ from users.models import Employee
 from users.serializers import EmployeeCreateSerializer, EmployeeSerializer
 
 
-class EmployeeViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+class EmployeeViewSet(
+    mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
     queryset = Employee.objects.select_related("user")
     permission_classes = [permissions.IsAdminUser]
 

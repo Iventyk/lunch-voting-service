@@ -10,14 +10,18 @@ class Vote(models.Model):
         on_delete=models.CASCADE,
         related_name="votes",
     )
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name="votes")
+    menu = models.ForeignKey(
+        Menu, on_delete=models.CASCADE, related_name="votes"
+    )
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["user", "date"], name="unique_user_vote_per_day")
+            models.UniqueConstraint(
+                fields=["user", "date"], name="unique_user_vote_per_day"
+            )
         ]
         ordering = ["-date", "-updated_at"]
 

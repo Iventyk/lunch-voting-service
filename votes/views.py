@@ -1,11 +1,24 @@
-from rest_framework import decorators, mixins, permissions, response, status, viewsets
+from rest_framework import (
+    decorators,
+    mixins,
+    permissions,
+    response,
+    status,
+    viewsets,
+)
 
 from votes.models import Vote
 from votes.selectors import current_day_results
-from votes.serializers import ResultSerializer, VoteCreateSerializer, VoteSerializer
+from votes.serializers import (
+    ResultSerializer,
+    VoteCreateSerializer,
+    VoteSerializer,
+)
 
 
-class VoteViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+class VoteViewSet(
+    mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -27,7 +40,9 @@ class VoteViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.Gener
             if serializer.context.get("vote_created")
             else status.HTTP_200_OK
         )
-        response_serializer = VoteSerializer(vote, context=self.get_serializer_context())
+        response_serializer = VoteSerializer(
+            vote, context=self.get_serializer_context()
+        )
         return response.Response(response_serializer.data, status=status_code)
 
     @decorators.action(detail=False, methods=["get"], url_path="results")

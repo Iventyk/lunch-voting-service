@@ -26,7 +26,11 @@ def test_employee_creation_requires_admin_user():
 
     response = client.post(
         "/api/employees/",
-        {"username": "new", "password": "password123", "full_name": "New Employee"},
+        {
+            "username": "new",
+            "password": "password123",
+            "full_name": "New Employee",
+        },
         format="json",
     )
 
